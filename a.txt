@@ -1,9 +1,187 @@
-public class Main {
-    public static void main(String[] args) {
-       System.out.printf("Hello and welcome!");
+import java.util.*;
 
-        for (int i = 1; i <= 5; i++) {
-            System.out.println("i = " + i);
+public class Main {
+    static String players[];
+    static int reyting[];
+    static int simple;
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        Random random = new Random();
+        int n,m,lkm,mm;
+        System.out.println("  =============== Welcome to game============  ");
+        playersname();
+        for (int k = 0; k < players.length; k++) {
+            System.out.println(players[k]+" are you ready for the game?");
+            System.out.println(players[k]+" enter 1 if you want to start the game otherwise enter 0");
+            int kkk = scanner.nextInt();
+            if(kkk!=0) {
+                int truecount = 0;
+                for (int i = 1; i <= 5; ) {
+                    int sign = signrandom();
+                    n = nrun();
+                    m = mrun();
+                    switch (sign) {
+                        case 1: {
+                            System.out.println("\t\t\t" + n + " + " + m + " = ");
+                            answervariant(n+m);
+                            System.out.println("\t\tenter the correct option");
+                            i++;
+                            char ss = scanner.next().charAt(0);
+
+                            if (charimput(ss)) {
+                                truecount++;
+                            }
+                        }
+                        case 2: {
+                            System.out.println("\t\t\t" + n + " - " + m + " = ");
+                            answervariant(n-m);
+                            System.out.println("\t\tenter the correct option");
+                            i++;
+                            char ss = scanner.next().charAt(0);
+
+                            if (charimput(ss)) {
+                                truecount++;
+                            }
+
+                        }
+                        case 3: {
+                            System.out.println("\t\t\t" + n + " * " + m + " = ");
+                            answervariant(n*m);
+                            System.out.println("\t\t\tenter the correct option");
+                            i++;
+                            char ss = scanner.next().charAt(0);
+
+                            if (charimput(ss)) {
+                                truecount++;
+                            }
+
+                        }
+
+                    }
+
+
+                }
+                reyting[k] = truecount;
+
+            }else{
+                reyting[k] = -1;
+            }
+
+        }
+        reyting();
+
+
+
+
+    }
+
+
+
+    public static void answervariant(int n){
+        Random random = new Random();
+        int variant = random.nextInt(3)+1;
+
+        switch (variant){
+            case 1:
+                System.out.println("A)   "+n+"\t\t\t"+"B)   "+(n+1));
+                System.out.println("C)   "+(n-1)+"\t\t\t"+"D)   "+(n+2));
+                simple = 1;
+                break;
+            case 2:
+                System.out.println("A)   "+(n+1)+"\t\t\t"+"B)   "+n);
+                System.out.println("C)   "+(n-1)+"\t\t\t"+"D)   "+(n+2));
+                simple = 2;
+                break;
+            case 3:
+                System.out.println("A)   "+(n-1)+"\t\t\t"+"B)   "+(n+1));
+                System.out.println("C)   "+n+"\t\t\t"+"D)   "+(n+2));
+                simple = 3;
+                break;
+            case 4:
+                System.out.println("A)   "+(n+2)+"\t\t\t"+"B)   "+(n+1));
+                System.out.println("C)   "+(n-1)+"\t\t\t"+"D)   "+n);
+                simple = 4;
+                break;
+        }
+
+
+    }
+
+    public static void playersname(){
+        Scanner scanner = new Scanner(System.in);
+        Scanner scanner1 = new Scanner(System.in);
+        Scanner scanner2 = new Scanner(System.in);
+        System.out.print(" \tenter the number of players => ");
+        int numbersplayers = scanner1.nextInt();
+        players = new String[numbersplayers];
+        reyting = new int[numbersplayers];
+        System.out.println("\tenter the name of the players  ");
+
+        for (int i = 0; i < players.length; i++) {
+            System.out.print(i + "  enter player name =>");
+            players[i] = scanner2.nextLine();
         }
     }
+    public static int signrandom(){
+        Random random = new Random();
+        int signrandom1 = random.nextInt(3) + 1;
+        return signrandom1;
+    }
+    public static int nrun(){
+        Random random = new Random();
+        int n = random.nextInt(10);
+        return n;
+    }
+    public static int mrun(){
+        Random random = new Random();
+        int m = random.nextInt(10);
+        return m;
+    }
+
+    public static boolean charimput( char s) {
+int n = simple;
+        if (s == 'A' && n == 1) {
+            return true;
+        }
+        if (s == 'B' && n == 2) {
+            return true;
+        }
+        if (s == 'C' && n == 3) {
+            return true;
+        }
+        if (s == 'D' && n == 4) {
+            return true;
+        }
+        return false;
+    }
+    public static void reyting(){
+        int h = 0;
+        String swapp = "";
+        for (int i = 0; i < players.length; i++) {
+            for (int j = 0; j < players.length-1; j++) {
+                if(reyting[j] < reyting[j+1]){
+                    reyting[j+1] = h;
+                    reyting[j+1] = reyting[j];
+                    reyting[j] = h;
+                    swapp = players[j+1];
+                    players[j+1] = players[j];
+                    players[j] = swapp;
+                }
+            }
+        }
+        for (int i = 0; i < players.length; i++) {
+            if(reyting[i] == -1){
+                System.out.println(players[i]  + " 0  the player did not participate in the game");
+            }else {
+                System.out.println(players[i] + "  player  score  " + reyting[i]);
+            }
+        }
+        System.out.println("\n");
+    }
 }
+
+
+
+
+
